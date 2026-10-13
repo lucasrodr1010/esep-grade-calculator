@@ -24,6 +24,19 @@ A small Go library that turns a student's assignment, exam, and essay grades int
 | 60 to 69       | D      |
 | below 60       | F      |
 
+Passing requires a C or better, which is a weighted score of 70 or more.
+
+## Letter grades or Pass/Fail
+
+The calculator is created in one of two grading modes:
+
+| Mode | `GetFinalGrade` returns |
+|------|-------------------------|
+| `LetterGrade` | `"A"`, `"B"`, `"C"`, `"D"` or `"F"` |
+| `PassFail` | `"Pass"` for a C or better, `"Fail"` below that |
+
+A kind of grade with no grades in it counts as 0.
+
 ## Project layout
 
 | File | What it is |
@@ -45,13 +58,20 @@ Check your version with `go version`. Install Go from https://go.dev/dl/.
 ## Using the library
 
 ```go
-calculator := NewGradeCalculator()
+calculator := NewGradeCalculator(LetterGrade)
 
 calculator.AddGrade("open source assignment", 95, Assignment)
 calculator.AddGrade("exam 1", 88, Exam)
 calculator.AddGrade("essay on ai ethics", 91, Essay)
 
-finalGrade := calculator.GetFinalGrade() // a letter: "A", "B", "C", "D" or "F"
+finalGrade := calculator.GetFinalGrade() // "A": 47 + 30 + 13 = 91, with integer math
+
+passFail := NewGradeCalculator(PassFail)
+passFail.AddGrade("open source assignment", 95, Assignment)
+passFail.AddGrade("exam 1", 88, Exam)
+passFail.AddGrade("essay on ai ethics", 91, Essay)
+
+result := passFail.GetFinalGrade() // "Pass"
 ```
 
 ## Running the tests
