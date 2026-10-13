@@ -64,7 +64,7 @@ calculator.AddGrade("open source assignment", 95, Assignment)
 calculator.AddGrade("exam 1", 88, Exam)
 calculator.AddGrade("essay on ai ethics", 91, Essay)
 
-finalGrade := calculator.GetFinalGrade() // "A": 47 + 30 + 13 = 91, with integer math
+finalGrade := calculator.GetFinalGrade() // "A": 47.5 + 30.8 + 13.65 = 91.95, cut to 91
 
 passFail := NewGradeCalculator(PassFail)
 passFail.AddGrade("open source assignment", 95, Assignment)
