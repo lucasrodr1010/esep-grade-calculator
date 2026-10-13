@@ -1,18 +1,99 @@
 # ESEP Grade Calculator
 
-This library is a simple utility to calculate your grades.
+A small Go library that turns a student's assignment, exam, and essay grades into one final letter grade.
 
-Runtime requirements:
-Golang 1.24+
+## How the final grade is calculated
 
-Run unit tests:
+1. Each grade is added with a name, a score from 0 to 100, and a type: `Assignment`, `Exam`, or `Essay`.
+2. The scores of each type are averaged.
+3. The three averages are combined with these weights:
+
+| Grade type  | Weight |
+|-------------|--------|
+| Assignments | 50%    |
+| Exams       | 35%    |
+| Essays      | 15%    |
+
+4. The weighted score is converted to a letter:
+
+| Weighted score | Letter |
+|----------------|--------|
+| 90 and above   | A      |
+| 80 to 89       | B      |
+| 70 to 79       | C      |
+| 60 to 69       | D      |
+| below 60       | F      |
+
+## Project layout
+
+| File | What it is |
+|------|------------|
+| `README.MD` | This file. |
+| `grade-calculator/go.mod` | Go module file. Names the module `esep/grade-calculator` and the Go version it needs. |
+| `grade-calculator/grade_calculator.go` | The library: the `GradeCalculator` type, `AddGrade`, and `GetFinalGrade`. |
+| `grade-calculator/grade_calculator_test.go` | Unit tests, written with Go's built-in `testing` package. |
+
+There are no third-party dependencies.
+
+## Requirements
+
+- Go 1.24 or newer (`go.mod` asks for 1.24.4).
+- An older Go, 1.21 or newer, also works: it downloads the 1.24.4 toolchain by itself the first time you run a `go` command in the module folder.
+
+Check your version with `go version`. Install Go from https://go.dev/dl/.
+
+## Using the library
+
+```go
+calculator := NewGradeCalculator()
+
+calculator.AddGrade("open source assignment", 95, Assignment)
+calculator.AddGrade("exam 1", 88, Exam)
+calculator.AddGrade("essay on ai ethics", 91, Essay)
+
+finalGrade := calculator.GetFinalGrade() // a letter: "A", "B", "C", "D" or "F"
 ```
-cd grade_calculator/
+
+## Running the tests
+
+All commands are run from the module folder. Note the dash in its name:
+
+```
+cd grade-calculator
+```
+
+Run every test:
+
+```
 go test ./...
 ```
 
-Run unit tests with code coverage:
+Run every test and print one line per test:
+
 ```
-cd grade_calculator/
-go test -coverprofile=coverage.txt ./...
+go test -v ./...
 ```
+
+Run one test by name:
+
+```
+go test -run TestGetGradeA ./...
+```
+
+## Code coverage
+
+Print the percentage of statements the tests execute:
+
+```
+go test -cover ./...
+```
+
+Write a coverage profile, then read it per function or as highlighted source in a browser:
+
+```
+go test -coverprofile=coverage.out ./...
+go tool cover -func=coverage.out
+go tool cover -html=coverage.out
+```
+
+`coverage.out` is a generated file. Do not commit it.
