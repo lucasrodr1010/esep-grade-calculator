@@ -248,3 +248,95 @@ func TestGradeTypeString(t *testing.T) {
 		}
 	}
 }
+
+// Pass/Fail evaluation: passing requires a C or better, which is a score of 70 or more.
+func TestPassFailReturnsPassForPassingGrades(t *testing.T) {
+	expected_value := "Pass"
+
+	gradeCalculator := NewGradeCalculator(PassFail)
+
+	gradeCalculator.AddGrade("open source assignment", 100, Assignment)
+	gradeCalculator.AddGrade("exam 1", 100, Exam)
+	gradeCalculator.AddGrade("essay on ai ethics", 100, Essay)
+
+	actual_value := gradeCalculator.GetFinalGrade()
+
+	if expected_value != actual_value {
+		t.Errorf("Expected GetGrade to return '%s'; got '%s' instead", expected_value, actual_value)
+	}
+}
+
+func TestPassFailReturnsFailForFailingGrades(t *testing.T) {
+	expected_value := "Fail"
+
+	gradeCalculator := NewGradeCalculator(PassFail)
+
+	gradeCalculator.AddGrade("open source assignment", 50, Assignment)
+	gradeCalculator.AddGrade("exam 1", 45, Exam)
+	gradeCalculator.AddGrade("essay on ai ethics", 40, Essay)
+
+	actual_value := gradeCalculator.GetFinalGrade()
+
+	if expected_value != actual_value {
+		t.Errorf("Expected GetGrade to return '%s'; got '%s' instead", expected_value, actual_value)
+	}
+}
+
+// A C passes and a D does not.
+func TestPassFailRequiresCOrBetter(t *testing.T) {
+	testCases := []struct {
+		score    int
+		expected string
+	}{
+		{100, "Pass"},
+		{90, "Pass"},
+		{80, "Pass"},
+		{70, "Pass"},
+		{69, "Fail"},
+		{60, "Fail"},
+		{0, "Fail"},
+	}
+
+	for _, testCase := range testCases {
+		gradeCalculator := NewGradeCalculator(PassFail)
+
+		gradeCalculator.AddGrade("assignment", testCase.score, Assignment)
+		gradeCalculator.AddGrade("exam", testCase.score, Exam)
+		gradeCalculator.AddGrade("essay", testCase.score, Essay)
+
+		actual_value := gradeCalculator.GetFinalGrade()
+
+		if testCase.expected != actual_value {
+			t.Errorf("score %d: expected GetGrade to return '%s'; got '%s' instead", testCase.score, testCase.expected, actual_value)
+		}
+	}
+}
+
+func TestPassFailWithNoGrades(t *testing.T) {
+	expected_value := "Fail"
+
+	gradeCalculator := NewGradeCalculator(PassFail)
+
+	actual_value := gradeCalculator.GetFinalGrade()
+
+	if expected_value != actual_value {
+		t.Errorf("Expected GetGrade to return '%s'; got '%s' instead", expected_value, actual_value)
+	}
+}
+
+// Asking for letter grades still returns letters.
+func TestLetterGradeModeReturnsLetters(t *testing.T) {
+	expected_value := "C"
+
+	gradeCalculator := NewGradeCalculator(LetterGrade)
+
+	gradeCalculator.AddGrade("open source assignment", 75, Assignment)
+	gradeCalculator.AddGrade("exam 1", 72, Exam)
+	gradeCalculator.AddGrade("essay on ai ethics", 70, Essay)
+
+	actual_value := gradeCalculator.GetFinalGrade()
+
+	if expected_value != actual_value {
+		t.Errorf("Expected GetGrade to return '%s'; got '%s' instead", expected_value, actual_value)
+	}
+}
