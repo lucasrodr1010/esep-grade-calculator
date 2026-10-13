@@ -5,7 +5,7 @@ import "testing"
 func TestGetGradeA(t *testing.T) {
 	expected_value := "A"
 
-	gradeCalculator := NewGradeCalculator()
+	gradeCalculator := NewGradeCalculator(LetterGrade)
 
 	gradeCalculator.AddGrade("open source assignment", 100, Assignment)
 	gradeCalculator.AddGrade("exam 1", 100, Exam)
@@ -21,7 +21,7 @@ func TestGetGradeA(t *testing.T) {
 func TestGetGradeB(t *testing.T) {
 	expected_value := "B"
 
-	gradeCalculator := NewGradeCalculator()
+	gradeCalculator := NewGradeCalculator(LetterGrade)
 
 	gradeCalculator.AddGrade("open source assignment", 80, Assignment)
 	gradeCalculator.AddGrade("exam 1", 81, Exam)
@@ -37,7 +37,7 @@ func TestGetGradeB(t *testing.T) {
 func TestGetGradeF(t *testing.T) {
 	expected_value := "F"
 
-	gradeCalculator := NewGradeCalculator()
+	gradeCalculator := NewGradeCalculator(LetterGrade)
 
 	gradeCalculator.AddGrade("open source assignment", 50, Assignment)
 	gradeCalculator.AddGrade("exam 1", 45, Exam)
@@ -53,7 +53,7 @@ func TestGetGradeF(t *testing.T) {
 func TestGetGradeC(t *testing.T) {
 	expected_value := "C"
 
-	gradeCalculator := NewGradeCalculator()
+	gradeCalculator := NewGradeCalculator(LetterGrade)
 
 	gradeCalculator.AddGrade("open source assignment", 75, Assignment)
 	gradeCalculator.AddGrade("exam 1", 72, Exam)
@@ -69,7 +69,7 @@ func TestGetGradeC(t *testing.T) {
 func TestGetGradeD(t *testing.T) {
 	expected_value := "D"
 
-	gradeCalculator := NewGradeCalculator()
+	gradeCalculator := NewGradeCalculator(LetterGrade)
 
 	gradeCalculator.AddGrade("open source assignment", 65, Assignment)
 	gradeCalculator.AddGrade("exam 1", 62, Exam)
@@ -87,7 +87,7 @@ func TestGetGradeD(t *testing.T) {
 func TestGetGradeAveragesEachGradeType(t *testing.T) {
 	expected_value := "B"
 
-	gradeCalculator := NewGradeCalculator()
+	gradeCalculator := NewGradeCalculator(LetterGrade)
 
 	gradeCalculator.AddGrade("open source assignment", 100, Assignment)
 	gradeCalculator.AddGrade("unit testing assignment", 80, Assignment)
@@ -121,7 +121,7 @@ func TestGetGradeWeightsEachGradeType(t *testing.T) {
 	}
 
 	for _, testCase := range testCases {
-		gradeCalculator := NewGradeCalculator()
+		gradeCalculator := NewGradeCalculator(LetterGrade)
 
 		gradeCalculator.AddGrade("assignment", testCase.assignment, Assignment)
 		gradeCalculator.AddGrade("exam", testCase.exam, Exam)
@@ -154,7 +154,7 @@ func TestGetGradeLetterBoundaries(t *testing.T) {
 	}
 
 	for _, testCase := range testCases {
-		gradeCalculator := NewGradeCalculator()
+		gradeCalculator := NewGradeCalculator(LetterGrade)
 
 		gradeCalculator.AddGrade("assignment", testCase.score, Assignment)
 		gradeCalculator.AddGrade("exam", testCase.score, Exam)
@@ -173,7 +173,7 @@ func TestGetGradeLetterBoundaries(t *testing.T) {
 func TestGetGradeExactBoundaryFromMixedGrades(t *testing.T) {
 	expected_value := "D"
 
-	gradeCalculator := NewGradeCalculator()
+	gradeCalculator := NewGradeCalculator(LetterGrade)
 
 	gradeCalculator.AddGrade("open source assignment", 23, Assignment)
 	gradeCalculator.AddGrade("exam 1", 97, Exam)
@@ -189,7 +189,7 @@ func TestGetGradeExactBoundaryFromMixedGrades(t *testing.T) {
 func TestGetGradeWithNoGrades(t *testing.T) {
 	expected_value := "F"
 
-	gradeCalculator := NewGradeCalculator()
+	gradeCalculator := NewGradeCalculator(LetterGrade)
 
 	actual_value := gradeCalculator.GetFinalGrade()
 
@@ -202,7 +202,7 @@ func TestGetGradeWithNoGrades(t *testing.T) {
 func TestGetGradeWithOneGradeTypeOnly(t *testing.T) {
 	expected_value := "F"
 
-	gradeCalculator := NewGradeCalculator()
+	gradeCalculator := NewGradeCalculator(LetterGrade)
 
 	gradeCalculator.AddGrade("open source assignment", 100, Assignment)
 
@@ -216,7 +216,7 @@ func TestGetGradeWithOneGradeTypeOnly(t *testing.T) {
 func TestAddGradeIgnoresUnknownGradeType(t *testing.T) {
 	expected_value := "A"
 
-	gradeCalculator := NewGradeCalculator()
+	gradeCalculator := NewGradeCalculator(LetterGrade)
 
 	gradeCalculator.AddGrade("open source assignment", 100, Assignment)
 	gradeCalculator.AddGrade("exam 1", 100, Exam)
